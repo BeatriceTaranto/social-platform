@@ -1,0 +1,30 @@
+USE social_platform;
+
+SELECT *
+FROM users u
+JOIN medias m ON m.id = u.id
+WHERE m.type = 'video';
+
+SELECT *
+FROM posts p
+LEFT JOIN likes l ON l.post_id = p.id
+WHERE l.post_id IS NULL;
+
+SELECT count(l.post_id) AS likes, post_id, title
+FROM likes l 
+JOIN posts p ON p.id = l.post_id
+GROUP BY post_id;
+
+SELECT u.id, u.username, count(m.id) AS total_medias
+FROM users u
+JOIN medias m ON u.id = m.user_id
+GROUP BY u.id
+ORDER BY total_medias;
+
+SELECT COUNT(l.post_id) AS likes, u.id, u.username
+FROM users u 
+JOIN posts p ON p.user_id = u.id
+JOIN likes l ON p.id = l.post_id
+GROUP BY u.id
+ORDER BY likes;
+
